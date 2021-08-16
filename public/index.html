@@ -1,0 +1,111 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="description" content="Actionhero.js" />
+    <link rel="stylesheet" href="/public/css/cosmo.css" type="text/css" />
+    <link rel="icon" href="/public/favicon.ico" />
+    <title>Actionhero.js</title>
+  </head>
+
+  <body>
+    <div
+      class="alert alert-warning"
+      style="
+        display: none;
+        font-weight: bold;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        z-index: 9999;
+      "
+      id="error-container"
+    >
+      <p id="error" />
+    </div>
+
+    <div class="container">
+      <br />
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-md-4">
+            <img src="/public/logo/actionhero.png" style="max-width: 100%;" />
+          </div>
+          <div class="col-md-8">
+            <h1>Your Actionhero Server is working.</h1>
+            <h2>Congratulations!</h2>
+            <br />
+            <br />
+            <p>
+              Actionhero is a multi-transport API Server with integrated cluster
+              capabilities and delayed tasks.
+            </p>
+            <p>
+              Actionhero was built from the ground up to include all the
+              features you expect from a modern API framework. This includes all
+              the features listed below and more. Actionhero also knows when to
+              get out of the way to allow you to customize your stack to fit
+              your needs.
+            </p>
+            <br />
+            <br />
+            <div class="row">
+              <div class="col-md-4">
+                <a href="/swagger.html" class="btn btn-primary"
+                  >API Documentation</a
+                >
+              </div>
+
+              <div class="col-md-4">
+                <a
+                  href="http://www.actionherojs.com"
+                  target="_blank"
+                  class="btn btn-outline-success"
+                  >Learn More</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card border-primary">
+            <div class="card-header">This Server</div>
+            <div class="card-body">
+              <pre class="card-text">
+  Server Name:        <span class="right" id="serverName">...</span>
+  Server ID:          <span class="right" id="serverId">...</span>
+  API Version:        <span class="right" id="serverVersion">...</span>
+  Actionhero Version  <span class="right" id="actionheroVersion">...</span>
+  Uptime (min):       <span class="right" id="uptime">...</span>
+  Memory Consumed:    <span class="right" id="consumedMemoryMB">...</span>
+            </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var populateStatus = function (data) {
+        document.getElementById("serverVersion").innerHTML = data.version;
+        document.getElementById("serverName").innerHTML = data.name;
+        document.getElementById("serverId").innerHTML = data.id;
+        document.getElementById("actionheroVersion").innerHTML =
+          data.actionheroVersion;
+        document.getElementById("uptime").innerHTML = Math.round(
+          data.uptime / 1000 / 60
+        );
+        document.getElementById("consumedMemoryMB").innerHTML =
+          data.consumedMemoryMB + "MB";
+      };
+
+      fetch("/api/status")
+        .then((response) => response.json())
+        .then((data) => populateStatus(data));
+    </script>
+  </body>
+</html>
